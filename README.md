@@ -86,12 +86,17 @@ npm install
 
 ### 4. Start the Development Server
 ```bash
-npm start
+npm run dev
 ```
 
 ### 5. Build for Production
 ```bash
 npm run build
+```
+
+### 6. Run the Production Build
+```bash
+npm start
 ```
 
 ---
