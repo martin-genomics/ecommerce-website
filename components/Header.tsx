@@ -9,8 +9,12 @@ import PopupDrawer from "./drawers/PopupDrawer"
 
 
 
+interface HeaderProps {
+    open: boolean;
+    setSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export default function Header() {
+export default function Header({setSidebar, open}: HeaderProps) {
 
     const navItems = [
         { name: 'Footwear', href: '#' },
@@ -35,7 +39,7 @@ export default function Header() {
             {/* Nav Items */}
             <div>
                 <nav className=" md:hidden">
-                    <Button variant="ghost">
+                    <Button variant="ghost" onClick={() => setSidebar(!open)}>
                         <MenuIcon />
                     </Button>
                 </nav>

@@ -21,7 +21,7 @@ export function ProfileDropdownMenu( {user}: {user: User} ) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-      <Button variant="ghost">
+      <Button variant="ghost" className="p-0">
             <Avatar src={user?.name} name={`${user?.name}`} round size="30" />
       </Button>
       </DropdownMenuTrigger>

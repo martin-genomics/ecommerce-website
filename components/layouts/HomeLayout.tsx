@@ -10,13 +10,17 @@ interface HomeLayoutProps {
 }
 
 export default function HomeLayout({ children }: HomeLayoutProps) {
-    const [isOpen ] = useState(false)
+
+    const [isOpen, setIsOpen] = useState(false)
+
     return (
         <>
-            <Header />
+            <Header open={isOpen} setSidebar={setIsOpen} />
             {isOpen && <Sidebar />}
-            <div className=''>
-                {children}
+            <div className=' scrollbar-hide overflow-scroll h-screen'>
+                <div className='mt-16'>
+                    {children}
+                </div>
             </div>
         </>
     )
