@@ -1,6 +1,7 @@
 'use client'
 
 import { CarouselLandingPage } from "./CarouselLandingPage";
+import Products from "./products/Products";
 import { Button } from "./ui/button";
 
 
@@ -39,6 +40,10 @@ export default function LandingPage() {
                             />
                         </div>
 
+                    </div>
+                    {/* Sub section 3 - NEW ARRIVALS */}
+                    <div>
+                        <Products />
                     </div>
                 </div>
             </div>

@@ -1,18 +1,16 @@
 'use client'
 
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import ProductCard from "./ProductCard";
 import { products } from "@/demo/product";
 import { Input } from "../ui/input";
-import { useState } from "react";
 import FilterModal from "./FilterModal";
 
 
 
 
 export default function Products() {
-    const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
 
 
 

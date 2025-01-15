@@ -72,6 +72,7 @@ export default function Product({ id }: { id: string }) {
 
     return (
         <>
+            
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex flex-col md:flex-row gap-3 md:w-[60%]">
                     <div className=' mx-3'>
@@ -99,7 +100,7 @@ export default function Product({ id }: { id: string }) {
                         >
                             {product.images.map((src, index) => (
                                 <SwiperSlide key={index} className=' h-96 bg-gray-100 w-96 '>
-                                    <Image src={{ blurDataURL: ""}} alt={`${src} ${index + 1}`} width={300} height={150} className='w-full h-full object-cover ' />
+                                    <Image src={selectedImage || src} alt={`${src} ${index + 1}`} width={300} height={150} className='w-full h-full object-cover ' />
                                 </SwiperSlide>
                             ))}
                         </Swiper>

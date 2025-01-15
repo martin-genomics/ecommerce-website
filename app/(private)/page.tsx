@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
+import LandingPage from "@/components/LandingPage";
+import HomeLayout from "@/components/layouts/HomeLayout";
 
 export default function Home() {
   return (
-    <div>
-      <Button>Button</Button>
-    </div>
+<HomeLayout>
+    <LandingPage />
+</HomeLayout>
   );
 }

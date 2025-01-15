@@ -19,11 +19,11 @@ import { FilterIcon } from "lucide-react"
 export default function FilterModal(){
 
     return (
-    <Dialog modal >
+    <Dialog  >
     <DialogTrigger className="border p-2 rounded">
         <FilterIcon size={24}/>
     </DialogTrigger>
-    <DialogContent>
+    <DialogContent >
         <DialogHeader>
         <DialogTitle>Filter</DialogTitle>
         <DialogDescription>
