@@ -8,8 +8,8 @@ import { Button } from "../ui/button"
 import formatCurrency from "@/lib/currency-manager"
 import { Rating } from "@smastrom/react-rating"
 import '@smastrom/react-rating/style.css'
-import { faCartPlus } from "@fortawesome/fontawesome-free-solid"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+// import { faCartPlus } from "@fortawesome/fontawesome-free-solid"
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 
 interface ProductCardProps {
@@ -33,9 +33,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             <CardFooter className="flex items-center justify-between flex-col ">
                 <div className="flex  items-center  justify-between h-full w-full ">
                     <CardTitle>{product.name}</CardTitle>
-                    <Button variant={'ghost'} size={'lg'}>
+                    {/* <Button variant={'ghost'} size={'lg'}>
                         <FontAwesomeIcon icon={faCartPlus as any}/>
-                    </Button>
+                    </Button> */}
                 </div>
                 <div className="w-full flex flex-col relative">
 
@@ -54,7 +54,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <span className=' text-gray-500'>({product.ratings?.count})</span>
                     </div>
 
-                    <Button className="bg-primary rounded-none absolute bottom-0 w-full font-sans">
+                    <Button className="bg-primary rounded-none absolute bottom-0 w-full font-sans hidden ">
                         Add cart
                     </Button>
 
