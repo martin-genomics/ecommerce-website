@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import { Button } from '../ui/button';
-import { Product } from '@/types/product';
+import { Product as ProductType } from '@/types/product';
 import formatCurrency from '@/lib/currency-manager';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
@@ -16,7 +16,7 @@ import { Separator } from '@radix-ui/react-dropdown-menu';
 import Image from 'next/image';
 // import { Input } from '@/components/ui/input';
 
-const product: Product =
+const product: ProductType =
     {
         id: "1",
         name: "Leora summer dress",
