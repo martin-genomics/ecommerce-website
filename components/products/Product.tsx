@@ -66,7 +66,7 @@ const product: Product =
     };
 
 
-export default function Product({ id }: { id: string }) {
+export default function Product({ }: { id: string }) {
 
     const [ selectedImage, setSelectedImage] = useState<string>();
 
