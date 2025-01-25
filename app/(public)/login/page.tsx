@@ -46,9 +46,9 @@ export default function Login() {
                 }}>
                     <Input  type="email" name="email" placeholder="Email" />
                     <Input type="password" name="password" placeholder="Password" />
-                    <Button variant={'secondary'} type="submit">Login</Button>
+                    <Button  type="submit" size={"lg"}>Login</Button>
                     <p className='text-center'>or</p>
-                    <Button type='button' variant={'secondary'} onClick={handleLoginWithGoogle} className='flex items-center justify-center gap-2'>
+                    <Button type='button' size={"lg"} variant={"secondary"} onClick={handleLoginWithGoogle} className='flex items-center justify-center gap-2'>
                         <FontAwesomeIcon icon={faGoogle} />
                         <span>
                             Login with Google

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -13,71 +13,86 @@ import '@smastrom/react-rating/style.css'
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import Image from 'next/image';
+import productCollection from '@/lib/products';
 // import { Input } from '@/components/ui/input';
 
-const product: ProductType =
-    {
-        id: "1",
-        name: "Leora summer dress",
-        description: "Beautiful summer dress in soft fabric designed by the best designer. Zeiro .Inc fabrics are the best quality fabrics in the world. ",
-        price: 100,
-        currency: "USD",
-        sku: "2K97J31",
-        category: "Clothing",
-        subCategory: "Subcategory 1",
-        brand: "Brand 1",
-        stock: 10,
-        images: [
-            "https://brand.assets.adidas.com/image/upload/v1717008170/Training_FW_24_Dropset3_global_Launch_What_shoes_should_you_wear_to_the_gym_image_Everyset_e43f4c24fd.jpg",
-            "https://brand.assets.adidas.com/image/upload/v1717012873/Training_SS_24_Strength_global_Launch_What_shoes_should_you_wear_to_the_gym_image_Amplimove_147f0ac3d4.jpg",
-            "https://brand.assets.adidas.com/image/upload/v1717007918/Training_FW_24_Dropset3_global_Launch_What_shoes_should_you_wear_to_the_gym_image_Dropset3_91ee309e85.jpg"
-        ],
-        thumbnail: "thumbnail.jpg",
-        ratings: {
-            average: 4.5,
-            count: 10,
-        },
-        reviews: [],
-        specifications: {
-            "Size": "Medium",
-            "Color": "Blue",
-        },
-        tags: ["tag1", "tag2"],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isFeatured: true,
-        isOnSale: false,
-        salePrice:undefined,
-        dimensions: {
-            width: 10,
-            height: 20,
-            depth: 5,
-            unit: "cm",
-        },
-        weight: {
-            value: 2.5,
-            unit: "kg",
-        },
-        shippingDetails: {
-            availableRegions: ["Nairobi", "Kisumu"],
-            estimatedDeliveryTime: "5-7 days",
-        },
-    };
+// const product: ProductType =
+//     {
+//         id: "1",
+//         name: "Leora summer dress",
+//         description: "Beautiful summer dress in soft fabric designed by the best designer. Zeiro .Inc fabrics are the best quality fabrics in the world. ",
+//         price: 100,
+//         currency: "USD",
+//         sku: "2K97J31",
+//         category: "Clothing",
+//         subCategory: "Subcategory 1",
+//         brand: "Brand 1",
+//         stock: 10,
+//         images: [
+//             "https://brand.assets.adidas.com/image/upload/v1717008170/Training_FW_24_Dropset3_global_Launch_What_shoes_should_you_wear_to_the_gym_image_Everyset_e43f4c24fd.jpg",
+//             "https://brand.assets.adidas.com/image/upload/v1717012873/Training_SS_24_Strength_global_Launch_What_shoes_should_you_wear_to_the_gym_image_Amplimove_147f0ac3d4.jpg",
+//             "https://brand.assets.adidas.com/image/upload/v1717007918/Training_FW_24_Dropset3_global_Launch_What_shoes_should_you_wear_to_the_gym_image_Dropset3_91ee309e85.jpg"
+//         ],
+//         thumbnail: "thumbnail.jpg",
+//         ratings: {
+//             average: 4.5,
+//             count: 10,
+//         },
+//         reviews: [],
+//         specifications: {
+//             "Size": "Medium",
+//             "Color": "Blue",
+//         },
+//         tags: ["tag1", "tag2"],
+//         createdAt: new Date(),
+//         updatedAt: new Date(),
+//         isFeatured: true,
+//         isOnSale: false,
+//         salePrice:undefined,
+//         dimensions: {
+//             width: 10,
+//             height: 20,
+//             depth: 5,
+//             unit: "cm",
+//         },
+//         weight: {
+//             value: 2.5,
+//             unit: "kg",
+//         },
+//         shippingDetails: {
+//             availableRegions: ["Nairobi", "Kisumu"],
+//             estimatedDeliveryTime: "5-7 days",
+//         },
+//     };
 
 
-export default function Product({ }: { id: string }) {
+export default function Product({ id }: { id: string }) {
 
     const [ selectedImage, setSelectedImage] = useState<string>();
+    const [ product, setProduct ] = useState<ProductType>()
+
+    useEffect(()=> {
+        ( async()=> {
+            try {
+                setProduct(await productCollection.getProduct(id));
+                
+            } catch (error) {
+                console.log(error)
+            }
+        })();
+    }, [])
 
     return (
         <>
-            
+        {/*  */}
+        {
+            product?
+
             <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex flex-col md:flex-row gap-3 md:w-[60%]">
                     <div className=' mx-3'>
                         <ul className=' flex md:flex-col gap-3'>
-                            {product.images.map(( src, index) => (
+                            {product?.images.map(( src, index) => (
                                 <li
                                     key={index}
                                     className=' '
@@ -88,19 +103,19 @@ export default function Product({ }: { id: string }) {
                             ))}
                         </ul>
                     </div>
+
                     <div className='w-[90%] h-96'>
                         <Swiper
                             spaceBetween={50}
                             slidesPerView={1}
                             onSlideChange={() => setSelectedImage(undefined) }
-                            onSwiper={(swiper) => console.log(swiper)}
                             navigation
                             pagination={{ clickable: true }}
                             modules={[Navigation, Pagination]}
                         >
-                            {product.images.map((src, index) => (
-                                <SwiperSlide key={index} className=' h-96 bg-gray-100 w-96 '>
-                                    <Image src={selectedImage || src} alt={`${src} ${index + 1}`} width={300} height={150} className='w-full h-full object-cover ' />
+                            {product?.images.map((src, index) => (
+                                <SwiperSlide key={index} className=' h-60 bg-gray-100 w-96 '>
+                                    <img src={selectedImage || src.trimStart()} alt={`${src.trimStart()} ${index + 1}`} width={300} height={150} className='w-full h-full object-cover ' />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -109,7 +124,7 @@ export default function Product({ }: { id: string }) {
 
                 <div className='w-[30%]'>
                     <div className=' flex flex-col gap-10'>
-                        <h1 className=' text-4xl font-bold'>{product.name}</h1>
+                        <h1 className=' text-4xl font-bold'>{product?.name}</h1>
                         {/* Product Price */}
                         <div className='flex justify-start items-center'>
                             <h3 className='text-4xl font-bold'>{formatCurrency(product.price)}</h3>
@@ -121,16 +136,16 @@ export default function Product({ }: { id: string }) {
                         <div className=' flex justify-start items-center'>
                         <Rating
                             style={{ maxWidth: 150 }}
-                            value={product.ratings?.average || 0}
+                            value={product?.ratings?.average || 0}
                             readOnly
                             />
                             <span className='text-gray-500'>
                                 |
                             </span>
-                            <span className=' mx-2 uppercase text-gray-500 text-sm'>{product.ratings?.count} customer review</span>
+                            <span className=' mx-2 uppercase text-gray-500 text-sm'>{product?.ratings?.count} customer review</span>
                         </div>
                         {/* Product Description */}
-                        <p className=' text-sm  text-gray-500'>{product.description}</p>
+                        <p className=' text-sm  text-gray-500'>{product?.description}</p>
 
                         {/* Size Selection */}
                         <div className=' flex flex-col gap-2'>
@@ -179,7 +194,7 @@ export default function Product({ }: { id: string }) {
                                             Category
                                         </td>
                                         <td className='bg-gray-100 p-1'>
-                                            {product.category}
+                                            {product?.category}
                                         </td>
                                     </tr>
 
@@ -188,7 +203,7 @@ export default function Product({ }: { id: string }) {
                                             SKU
                                         </td>
                                         <td className='bg-gray-100 p-1'>
-                                            {product.sku}
+                                            {product?.sku}
                                         </td>
                                     </tr>
 
@@ -197,7 +212,7 @@ export default function Product({ }: { id: string }) {
                                             Tags
                                         </td>
                                         <td className='bg-gray-100 p-1'>
-                                            {product.tags?.join(", ")}
+                                            {product?.tags?.join(", ")}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -207,6 +222,12 @@ export default function Product({ }: { id: string }) {
                 </div>
 
             </div>
+            :
+
+            <div>
+
+            </div>
+        }
             <div className='h-[1px] bg-gray-200 w-10/12 mx-auto my-10'></div>
             
             {/* Tab Section */}
@@ -217,7 +238,7 @@ export default function Product({ }: { id: string }) {
                     <TabsTrigger value="additional-information" className='text-xl'>Additional Information</TabsTrigger>
                     <TabsTrigger value="reviews" className='text-xl'>Reviews</TabsTrigger>
                 </TabsList>
-                <TabsContent value="description">{product.description}</TabsContent>
+                <TabsContent value="description">{product?.description}</TabsContent>
                 <TabsContent value="additional-information">Additional Information</TabsContent>
                 <TabsContent value="reviews">
                     <div className='flex flex-col gap-3'>
@@ -231,7 +252,7 @@ export default function Product({ }: { id: string }) {
                                     <textarea placeholder='Write a review' />
                                     <Rating
                                         style={{ maxWidth: 150 }}
-                                        value={product.ratings?.average || 0}
+                                        value={product?.ratings?.average || 0}
                                     />
                                         <Button variant="default" className=" text-white border-none" >Submit Review</Button>
                                 </form>

@@ -29,8 +29,13 @@ export default function Header({setSidebar, open}: HeaderProps) {
     useEffect(()=> {
 
         (async () => {
-            const userAccount = await getUser() as User;
-            setUser(userAccount);
+            try {
+                const userAccount = await getUser() as User;
+                setUser(userAccount);
+                
+            } catch (error) {
+                console.log(error)
+            }
         })()
     }, [])
 

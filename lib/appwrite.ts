@@ -1,10 +1,15 @@
-import { Account, Client, ID, OAuthProvider } from 'appwrite';
+import { Account, Client, ID, OAuthProvider, Databases } from 'appwrite';
 
 const client = new Client();
 
 client.setEndpoint(process.env!.NEXT_PUBLIC_APPWRITE_ENDPOINT as string);
 client.setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID as string);
 
+
+// if (process.env.NODE_ENV === 'development') {
+//     databaseId = process.env.NEXT_PUBLIC_APPWRITE_DEV_DATABASE_ID as string;
+//     collectionId = process.env.NEXT_PUBLIC_APPWRITE_DEV_COLLECTION_ID as string;
+// }
 
 export const account = new Account(client);
 export { ID };
@@ -56,3 +61,9 @@ export const getUser = async () => {
         throw error;
     }
 };
+
+
+export const databases  = new Databases(client);
+
+
+

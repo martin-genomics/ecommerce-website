@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // import { CarouselLandingPage } from "./CarouselLandingPage";
 // import Products from "./products/Products";
 import { Button } from "./ui/button";
-import { products } from "@/demo/product";
+// import { products } from "@/demo/product";
 import ProductCard from "./products/ProductCard";
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -14,7 +14,9 @@ import { ChevronLeft, ChevronRight, HeadphonesIcon, HeadsetIcon, LaptopIcon, Sen
 import Image from "next/image";
 import Link from "next/link";
 import { Input } from "./ui/input";
-
+import productCollection from '@/lib/products'
+import  { Product } from "@/types/product";
+import { useEffect, useState } from "react";
 
 
 const categories = [
@@ -51,6 +53,29 @@ const categories = [
 ]
 
 export default function LandingPage() {
+
+    const [ products, setProducts ] = useState<Product[]>([]);
+    const [isError, setISError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
+    useEffect(()=> {
+        (async () => {
+            try {
+                const { products } = await productCollection.getProducts<{ pagination: { total: number, page: number, pages: number}, products: Product[]}>();
+                
+                setProducts(products);
+                setISError(false)
+
+            } catch (error) {
+                setISError(true)
+
+                console.log("an error occurred: ",error)
+                setErrorMessage((error as Error).message)
+            }
+        })()
+    }, [])
+
+
     return (
         <>
 
@@ -120,22 +145,45 @@ export default function LandingPage() {
 </div>
 
 <div>
-    <Swiper
-        spaceBetween={50}
-        slidesPerView={5}
-    //    onSlideChange={() => setSelectedImage(undefined) }
-        onSwiper={(swiper) => console.log(swiper)}
-        navigation
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination]}
-    >
 
-        {products.map((product, i)=> (
-            <SwiperSlide key={i}>
-                <ProductCard product={product}/>
-            </SwiperSlide>
-        ))}
-    </Swiper>
+    {/* Skeleton loader */}
+    <div className="">
+
+    </div>
+
+    {/* Actual products */}
+    {
+        products?.length?
+            <Swiper
+                spaceBetween={50}
+                slidesPerView={5}
+            //    onSlideChange={() => setSelectedImage(undefined) }
+                onSwiper={(swiper) => console.log(swiper)}
+                navigation
+                pagination={{ clickable: true }}
+                modules={[Navigation, Pagination]}
+            >
+                {products.map((product, i)=> (
+                    <SwiperSlide key={i}>
+                        <ProductCard product={product}/>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+        :
+        <div className="flex flex-col items-center">
+            {isError?
+                <div>
+                    {errorMessage}
+                </div>
+                :
+                
+                <p className="">
+                    No products to show
+                </p>
+            }
+        </div>
+
+    }
 </div>
 <div className="flex flex-col items-center">
     <Button size={"lg"} className="text-lg font-sans">
@@ -183,16 +231,18 @@ export default function LandingPage() {
 {/* Category cards */}
 <div className="w-full">
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4  ">
-                                {categories.map((category, i) => (
-                                    <div key={i} className="border-2 flex flex-col items-center p-3 gap-5 h-48 justify-center duration-300 hover:scale-105 active:bg-primary active:text-white">
-                                        <div className="flex items-center justify-center">
-                                            {category.icon}
-                                        </div>
-                                        <h3 className="text-lg font-semibold">
-                                            {category.name}
-                                        </h3>
-                                    </div>
-                                ))}
+        {categories.map((category, i) => (
+            <Link key={i} href={category.url}>
+                <div  className="border-2 flex flex-col items-center p-3 gap-5 h-48 justify-center duration-300 hover:scale-105 active:bg-primary active:text-white">
+                    <div className="flex items-center justify-center">
+                        {category.icon}
+                    </div>
+                    <h3 className="text-lg font-semibold">
+                        {category.name}
+                    </h3>
+                </div>
+            </Link>
+        ))}
     </div>
 
 </div>
